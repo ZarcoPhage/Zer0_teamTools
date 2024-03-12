@@ -1,0 +1,133 @@
+Este es el super texto del RSA.
+Clase, la criptografia aborda muchos principios matematicos, por eso es principalmente una clase.
+RSA (Ciberseguridad, tecnologias, etc.)
+Daniel Espinoza, Federico Santa María, participo en 2023 (año pasado)
+
+Vulnerabilidad ejemplo, pero se basa mucho todo esto con la base de RSA (conocer las bases para entender)
+
+RSA,usado para, CTF, firmas digitales, etc.
+Rivest, Shamir, Adleman construyeron RSA hace aprox mas de 20 años 
+
+Textbook RSA: (Version simple, otras versiones añaden mas contenido a los mensajes cifrado)
+Cifrado, contiene mensaje (m) y llave (k)
+
+Explicacion:
+Servidor tiene llave privada d, y hay un valor publico n.
+Cliente tiene valor publico n y manda un mensaje m^e (mod n). Llave e es llave privada
+
+Que hace el servidor para recuperar m? usa m = c^d (mod n)
+con la relacion de que e*d = 1 para que se cancelen y se pueda obtener la informacion base (que seria m).
+
+GENERACIÓN DE LAS LLAVES:
+IDEALMENTE ES SEGURA, PERO CTF DEBE TENER UNA VULNERACION.
+> n = p*q <random
+> e =  (por estandar se fija un numero, puede ser primo, que cumpla con que exista una inversa) 65537,17,3,5, etc
+> d = e^(-1) (no es la fraccion de d, es la inversa del mod omega(n)), 
+> omega(n) = (p-1)*(q-1)
+> PUBLICO= n,e (no se puede obtener el p o q con solo el n)
+> PRIVADO = n,d (a traves de e)
+
+Installar pip install pycryptodome
+pip install gmpy2
+caso facil: 
+n = 15
+p = 3
+q = 5
+
+c =m^e  en vez de trabajar con numeros reales se hace mucho mas engorroso, pero por eso usamos enteros
+
+que pasa si a la potencia, pow(3,5) = 243, y el m es 15?
+entonces, pow(3,5,15) = 3
+de esta manera usamos un modulo, porque ya no hay un resultado directo.
+Necesitamos saber que mensaje o numero que fue cual es
+
+para una notacion cuando hay un modulo implicado, tenemos que:
+c (tres lineas) m^e(mod n) NO SE LE LLAMA Z(como conjunto de numeros)  // asi escriben los libros esto, es equivalente porque o vemos directamente el numero.
+por ende, C es un anillo de enteros ( Zn)
+
+suma es normal en modulo
+En resta es alreves del modulo, parte del maximo a otro menor.
+
+Nosotros usamos el teorema de euler y no especificamente el de fermat
+
+En la multiplicacion se modula EL RESULTADO DE LA MULTIPLICACION, 
+es exactamente lo mismo que ocurre en el teorema del resto, cualquier division a/b se puede escribir como
+Teorema resto
+a/b -> q,r 
+a = b*q +r 
+
+EN DIVISION:
+b^-1 = 1/b
+b* 1/b = 1
+
+Si aplicamos esto a los anillos de entero entonces tenemos:
+b * b^-1 = 1 mod n
+
+para calcular el inverso tenemos una funcion en especifico, PERO HAY CASOS DONDE NO TODOS LOS CASOS TIENEN INVERSO}
+DEPENDE EXCLUSIVAMENTE DEL MODULO SI ES QUE HAY INVERSO O NO.
+Propiedad fundamental para que cierto numero tenga la inversa.
+este es, EL GCD(3,5) = 1 (TIENE INVERSA) 
+PERO EL GCD(4,6) = 2 (NO TIENE INVERSA)
+
+Libros: an introduction to mathematical cryptography JEFFREY hOFFSTEIN
+Understanding Cryptography Christoff Paar
+phi = (p-1)*(q-1)
+DEMOSTRACION DEL PORQUE EL DESCIFRADO FUNCIONA:
+c^d % n
+d* e = 1 % phi
+
+#teorema de fermat
+a ^p = a%p
+
+p = getPrime(10)
+a = 437
+pow (a,p,p) = 437
+
+#teorema de euler 
+a ^phi(n) = 1
+
+d*e = 1 % phi
+por teorema de resto
+d*e = e*phi + 1(porque es el inverso multiplicativo)
+cuando ahcemos:
+c^d = m^(e*phi+1)
+m^k*phi*m 
+por teorema de euler:
+(m^k)^phi * m %n 
+
+c^ d % n = m
+
+
+# Textbook RSA (MUCHAS VULNERABILIDADES, NOSOTROS VAMOS A VER UNO)
+class RSA: 
+    def _init_(self,bits):
+        self.p = getPrime(bits // 2)
+        self.q = getPrime(bits // 2)
+        self.n = self.q * self.p
+
+        self.phi = (self.p - 1 )* (self.q -1)
+
+        self.e = 0x10001
+        self.d = pow(self.e,-1,self.phi)
+    def encrypt(self,m):
+        m = bytes_to_long(m)
+        return pow(m,self.e,self.n)
+    def decrypt(self,c):
+        return long_to_bytes(pow(c,self.d,self.n))
+rsa = RSA (2048)
+FLAG = b"f4k3_fl4G"
+c = rsa.encrypt(FLAG)
+m = rsa.decrypt(c)
+print(m) //deberia ser la clave
+
+#### CUBE ROOT ATTACK (VER DE NUEVO ESTA PARTE ( a la hora, por ahi))
+, SI e = 3 hay problemas no afecta nada el modulo.
+
+### COMMON MODULE, otras cosas. D-cryp7
+math.log2
+c = pow(bytes_to_long(m),3,rsa.n)
+como c no hace nada entonces, debemos calcular la raiz cubica de c:
+c**(1/3), da parte del mensaje, PERO FALTA PRECISIÓN
+micro tecnicas,
+e = 5 tambien puede funcionar.
+long_to_bytes(int(cbrt(c)))
