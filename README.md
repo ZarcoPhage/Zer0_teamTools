@@ -8,6 +8,8 @@ Se suben writeups de desafíos divertidos o interesantes para el equipo o sus in
 
 Happy H4ck1ng!
 
+@Notyel @Z_0r1on_Vitalis @SpicyMip @ignv_cix
+
 # Herramientas útiles:
 
 - VM Kali configurada y actualizada, en caso de estar en eventos "sin reglas", levantar defensas (firewall, VPN, proxychains, etc) para evitar posibles intercepciones de parte de otros equipos
@@ -30,3 +32,14 @@ Happy H4ck1ng!
 - Wireshark (desafíos de networking y forense, para análisis de red, intercepción de paquetes, etc)
 - Nmap (escáner de red y puertos, para descubrimiento u obtención de información)
 - SQLMap (SQL injection en una herramienta básicamente)
+
+# Para practicar
+- Academia PortSwigger (https://portswigger.net/web-security)
+- CryptoHack (Para desafíos crypto avanzados https://cryptohack.org)
+- TryHackMe (para entrenar y aprender desde 0 https://tryhackme.com/)
+- PicoCTF (desafíos de todo tipo, para practicar y calentar https://picoctf.org/)
+- Hack The Box (Boot2Root, desafíos de todo tipo https://app.hackthebox.com/)
+- HackThisSite (sitio abierto para practicar web y similares https://www.hackthissite.org/) (Gracias Makyu por el dato!)
+
+
+
