@@ -23,6 +23,7 @@ Happy H4ck1ng!
 - Burp Suite (Herramienta para desafíos web, versátil y amplia, intercepción de solicitudes, ataques de fuerza bruta, escaneo, etc)
 - Wappalyzer (extensión para navegadores, otorga información rápida de tecnologías de páginas web)
 - Shodan.io (IP indexer, para OSINT o information gathering )
+- payload all the things: https://github.com/swisskyrepo/PayloadsAllTheThings (payloads para explotar vulnerabilidades Web)
 
 # Herramientas de Kali:
 - John the Ripper, Hashcat (Brute Forcing, password attacks, dehashing)
