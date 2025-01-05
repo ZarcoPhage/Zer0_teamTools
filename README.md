@@ -24,6 +24,7 @@ Happy H4ck1ng!
 - Wappalyzer (extensión para navegadores, otorga información rápida de tecnologías de páginas web)
 - Shodan.io (IP indexer, para OSINT o information gathering )
 - payload all the things: https://github.com/swisskyrepo/PayloadsAllTheThings (payloads para explotar vulnerabilidades Web)
+- Cheatsheet de escalación de privilegios en Linux: https://github.com/MattiaCossu/PE-Linux
 
 # Herramientas de Kali:
 - John the Ripper, Hashcat (Brute Forcing, password attacks, dehashing)
